@@ -1,0 +1,51 @@
+﻿@model PROG6212.Models.FinalApprovalViewModel
+<h1>
+    Final Approval of Claims
+</h1>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Claim ID</th>
+            <th>Lecturer</th>
+            <th>Hours Worked</th>
+            <th>Hourly Rate</th>
+            <th>Amount Due</th>
+            <th>Status</th>
+            <th>Supporting Document</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var claim in Model.Claims)
+        {
+            <tr>
+                <td>@claim.ClaimID</td>
+                <td>@claim.LecturerName</td>
+                <td>@claim.HoursWorked</td>
+                <td>@claim.RatePerHour</td>
+                <td>@claim.TotalAmount</td>
+                <td>@claim.Status</td>
+                <td>
+                    @if (!string.IsNullOrEmpty(claim.SupportingDocumentFilePath))
+                    {
+                        <a href="@Url.Content(claim.SupportingDocumentFilePath)" target="_blank">View Document</a>
+                    }
+                    else
+                    {
+                        <span>No Document</span>
+                    }
+                </td>
+                <td>
+                    <a href="@Url.Action("ApproveClaim", new { id = claim.ClaimID })" class="btn btn-success">Approve</a>
+                    <a href="@Url.Action("RejectClaim", new { id = claim.ClaimID })" class="btn btn-danger">Reject</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+<!-- Comments Section -->
+<div class="form-group">
+    <label for="Comments">Comments/Notes:</label>
+    <textarea id="Comments" name="Comments" class="form-control"></textarea>
+</div>
